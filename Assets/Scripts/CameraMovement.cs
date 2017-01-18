@@ -3,6 +3,7 @@ using System;
 using UnityEngine.UI;
 using System.Collections;
 
+// CAMBIARE POINTER EXIT SULLA CAMERS CON UN BOOLEANO
 public class CameraMovement : MonoBehaviour
 {
     public Image radialSlider;

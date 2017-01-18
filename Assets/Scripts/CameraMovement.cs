@@ -1,27 +1,41 @@
 ﻿using UnityEngine;
-using System;
 using UnityEngine.UI;
 using System.Collections;
 
-// CAMBIARE POINTER EXIT SULLA CAMERS CON UN BOOLEANO
 public class CameraMovement : MonoBehaviour
 {
     public Image radialSlider;
     public float secondsToFill;
-    
+
+    private CameraMovement[] cameras;
+
+    private IEnumerator increaseFillAmount, decreaseFillAmount;
+    private Transform cameraTransform;
     private float speed = 2;
-    bool isMoving;
+    private bool isMoving;
+
+    private void Awake()
+    {
+        cameraTransform = Camera.main.transform;
+        cameras = FindObjectsOfType<CameraMovement>();
+    }
     
     public void StartTimer()
     {
-        StopAllCoroutines();
-        StartCoroutine(IncreaseFillAmountCO());
+        if (!isMoving)
+        {
+            increaseFillAmount = IncreaseFillAmountCO();
+            decreaseFillAmount = DecreaseFillAmountCO();
+
+            StopCoroutine(decreaseFillAmount);
+            StartCoroutine(increaseFillAmount);
+        }
     }
 
     public void StopTimer()
     {
-        StopAllCoroutines();
-        StartCoroutine(DecreaseFillAmountCO());
+        StopCoroutine(increaseFillAmount);
+        StartCoroutine(decreaseFillAmount);
     }
 
     private IEnumerator IncreaseFillAmountCO()
@@ -48,15 +62,23 @@ public class CameraMovement : MonoBehaviour
     {
         float step;
         isMoving = true;
+        Invoke("SetActiveAllCameras", 1.0f);
 
-        while ((_target.position - Camera.main.transform.position).magnitude > 0.005f)
+        while ((_target.position - cameraTransform.position).magnitude > 0.005f)
         {
             step = speed * Time.deltaTime;
-            Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, _target.position, step);
+            cameraTransform.position = Vector3.MoveTowards(cameraTransform.position, _target.position, step);
             yield return null;
         }
 
-        Camera.main.transform.position = _target.position;
+        cameraTransform.position = _target.position;
+        _target.gameObject.SetActive(false);
         isMoving = false;
+    }
+
+    private void SetActiveAllCameras()
+    {
+        for (int i = 0; i < cameras.Length; i++)
+            cameras[i].gameObject.SetActive(true);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using UnityEngine.UI;
 using System.Collections;
 
+// Gli passo un gameobject e comparo il nome! cambiare skybox quando vinci
 public class LoadingTarget : MonoBehaviour
 {
     public Image radialSlider;

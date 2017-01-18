@@ -5,7 +5,6 @@ using System.Collections;
 public class TimeBar : MonoBehaviour
 {
     public Image barTime;
-    private float seconds = 60;
     
 	public void Start()
     {

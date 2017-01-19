@@ -1,17 +1,14 @@
 ﻿using UnityEngine;
-using System;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using System.Collections;
 
-// Gli passo un gameobject e comparo il nome! cambiare skybox quando vinci
-public class LoadingTarget : MonoBehaviour
+public class PointerVR : MonoBehaviour
 {
     public Image radialSlider;
     public float secondsToFill;
 
-    public byte numberOfTarget;
-
-    internal Action<byte> targetEvent;
+    public UnityEvent unityEvent;
 
     public void StartTimer()
     {
@@ -24,7 +21,7 @@ public class LoadingTarget : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(DecreaseFillAmountCO());
     }
-    
+
     private IEnumerator IncreaseFillAmountCO()
     {
         while (radialSlider.fillAmount < 1)
@@ -32,8 +29,8 @@ public class LoadingTarget : MonoBehaviour
             radialSlider.fillAmount += (Time.deltaTime / secondsToFill);
             yield return null;
         }
-        
-        targetEvent(numberOfTarget);
+
+        unityEvent.Invoke();
     }
 
     private IEnumerator DecreaseFillAmountCO()

@@ -8,7 +8,7 @@ public class TriggerBoard : MonoBehaviour
 
     private GameObject bomb;
 
-    public float secondsCO = 0;
+    private float secondsCO = 0;
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class TriggerBoard : MonoBehaviour
 
     private void OnTriggerEnter(Collider _other)
     {
-        if (_other.CompareTag("Bomb"))
+        if (_other.CompareTag("Bomb_Ball"))
         {
             Debug.Log("Colliso con la pedana");
             StartCoroutine(PressureMovementCO());

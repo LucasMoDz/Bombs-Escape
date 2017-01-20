@@ -6,17 +6,24 @@ public class TimeBar : MonoBehaviour
 {
     public Image barTime;
     
-	public void Start()
+	public void StartTimer()
     {
-		StartCoroutine(DecreaseBar());
+		StartCoroutine(DecreaseBarCO());
 	}
 
-    public IEnumerator DecreaseBar()
+    public IEnumerator DecreaseBarCO()
     {
         while (barTime.fillAmount > 0)
         {
             yield return new WaitForSeconds(1);
-            barTime.fillAmount -= 0.0167f;
+            barTime.fillAmount -= 0.0055555f;
         }
+
+
+    }
+
+    public void ResetTimer()
+    {
+        barTime.fillAmount = 1;
     }
 }

@@ -5,6 +5,8 @@ using System.Collections;
 
 public class PointerVR : MonoBehaviour
 {
+    private IEnumerator increaseFillAmount, decreaseFillAmount;
+
     public Image radialSlider;
     public float secondsToFill;
 
@@ -12,25 +14,34 @@ public class PointerVR : MonoBehaviour
 
     public void StartTimer()
     {
-        StopAllCoroutines();
-        StartCoroutine(IncreaseFillAmountCO());
+        SetIEnumerator();
+        StopCoroutine(decreaseFillAmount);
+        StartCoroutine(increaseFillAmount);
     }
 
     public void StopTimer()
     {
-        StopAllCoroutines();
-        StartCoroutine(DecreaseFillAmountCO());
+        StopCoroutine(increaseFillAmount);
+        StartCoroutine(decreaseFillAmount);
+    }
+    
+    private void SetIEnumerator()
+    {
+        increaseFillAmount = IncreaseFillAmountCO();
+        decreaseFillAmount = DecreaseFillAmountCO();
     }
 
     private IEnumerator IncreaseFillAmountCO()
     {
         while (radialSlider.fillAmount < 1)
         {
+            Debug.Log("Filling");
             radialSlider.fillAmount += (Time.deltaTime / secondsToFill);
             yield return null;
         }
 
         unityEvent.Invoke();
+        StartCoroutine(DecreaseFillAmountCO());
     }
 
     private IEnumerator DecreaseFillAmountCO()

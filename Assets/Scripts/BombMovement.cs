@@ -15,13 +15,10 @@ public class BombMovement : MonoBehaviour
 
     public void CheckAndStartMovement()
     {
-        
-
         for (int i = 0; i < nearbyObjects.Length; i++)
         {
             if (nearbyObjects[i].transform.name == bomb.transformName)
             {
-                //Debug.Log(nearbyObjects[i].name);
                 StartCoroutine(MoveBombFromAToBCO(this.transform));
                 Debug.Log("Bomb CAN move");
                 return;

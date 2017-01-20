@@ -15,7 +15,7 @@ public class TriggerBoard : MonoBehaviour
         normalBoardPosition = this.GetComponent<Transform>().position;
         pressedBoardPosition = normalBoardPosition - new Vector3(0, 0.09348f, 0);
 
-        bomb = GameObject.FindGameObjectWithTag("Bomb");
+        bomb = GameObject.FindGameObjectWithTag("Bomb_Ball");
     }
 
     private void OnTriggerEnter(Collider _other)

@@ -4,7 +4,7 @@ using System.Collections;
 public class MainMenu : MonoBehaviour
 {
     public CanvasGroup mainMenuCanvasGroup;
-
+    private TimeBar timeBar;
     public GameObject arena;
 
     public float seconds = 2;
@@ -12,10 +12,10 @@ public class MainMenu : MonoBehaviour
 	private void Awake()
     {
         arena.SetActive(false);
-        
         mainMenuCanvasGroup.alpha = 1;
-
-        Time.timeScale = 0;
+        timeBar = FindObjectOfType<TimeBar>();
+        timeBar.transform.parent.gameObject.SetActive(false);
+        
 	}
 	
 	public void FadeCanvasGroup()
@@ -25,12 +25,18 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator FadeCanvasGroupOnMainMenuCO()
     {
+        FindObjectOfType<PointerVR>().StopTimer();
+
         while(mainMenuCanvasGroup.alpha > 0)
         {
             mainMenuCanvasGroup.alpha -= (Time.deltaTime / seconds);
             yield return null;
         }
 
+        mainMenuCanvasGroup.gameObject.SetActive(false);
         arena.SetActive(true);
+        
+        timeBar.transform.parent.gameObject.SetActive(true);
+        timeBar.StartTimer();
     }
 }

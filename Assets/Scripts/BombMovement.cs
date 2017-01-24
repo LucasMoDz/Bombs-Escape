@@ -15,22 +15,26 @@ public class BombMovement : MonoBehaviour
 
     public void CheckAndStartMovement()
     {
-        for (int i = 0; i < nearbyObjects.Length; i++)
+        if (!bomb.isMoving)
         {
-            if (nearbyObjects[i].transform.name == bomb.transformName)
+            for (int i = 0; i < nearbyObjects.Length; i++)
             {
-                StartCoroutine(MoveBombFromAToBCO(this.transform));
-                Debug.Log("Bomb CAN move");
-                return;
+                if (nearbyObjects[i].transform.name == bomb.transformName)
+                {
+                    StartCoroutine(MoveBombFromAToBCO(this.transform));
+                    Debug.Log("Bomb CAN move");
+                    return;
+                }
             }
         }
-
+        
         Debug.Log("Bomb CAN'T move");
     }
 
     private IEnumerator MoveBombFromAToBCO(Transform _target)
     {
         float step;
+        bomb.isMoving = true;
 
         // Aggiorna il target attuale della bomba
         bomb.transformName = this.transform.name;
@@ -44,5 +48,6 @@ public class BombMovement : MonoBehaviour
         }
 
         bomb.gameObject.transform.position = _target.position;
+        bomb.isMoving = false;
     }
 }
